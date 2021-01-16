@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ container.app_name }}
+  namespace: {{ container.namespace }}
+  labels:
+    app: {{ container.app_name }}
+spec:
+  replicas: {{ container.replicas }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: {{ container.app_name }}
+  template:
+    metadata:
+      labels:
+        app: {{ container.app_name }}
+    spec:
+      containers:
+      - name: {{ container.app_name }}
+        image: {{ container.image }}
+        imagePullPolicy: {{container.image_pull_policy}}
+        ports:
+          - containerPort: {{ service.port }}
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /api/actuator/health
+            port: {{ service.port }}
+          initialDelaySeconds: {{ container.liveness_probe.initial_delay_seconds }}
+          periodSeconds: {{ container.liveness_probe.period_seconds }}
+          timeoutSeconds: 2
+          failureThreshold: {{ container.liveness_probe.failure_threshold }}
+        readinessProbe:
+          httpGet:
+            path: /api/actuator/health
+            port: {{ service.port }}
+          initialDelaySeconds: {{ container.readiness_probe.initial_delay_seconds }}
+          periodSeconds: {{ container.readiness_probe.period_seconds }}
+          timeoutSeconds: 2
+          failureThreshold: {{ container.liveness_probe.failure_threshold }}
+      imagePullSecrets:
+        - name: {{ container.image_pull_secrets_name }}
+      restartPolicy: {{ container.restart_policy }}

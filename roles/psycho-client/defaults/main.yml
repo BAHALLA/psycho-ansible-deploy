@@ -1,0 +1,20 @@
+---
+container:
+  namespace: "psycho-dev"
+  app_name: "client-service"
+  replicas: 1
+  image_pull_secrets_name: "nexus-docker"
+  restart_policy: "Always"
+  image: "bahalla/client-service-master:latest"
+  image_pull_policy: "Always"
+  liveness_probe:
+    initial_delay_seconds: 10
+    period_seconds: 30
+    failure_threshold: 6
+  readiness_probe:
+    initial_delay_seconds: 10
+    period_seconds: 30
+    failure_threshold: 6
+service:
+  port: 8080
+

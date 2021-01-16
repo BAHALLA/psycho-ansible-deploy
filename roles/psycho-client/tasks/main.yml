@@ -1,0 +1,9 @@
+---
+- name: Deploy psycho client service
+  command: kubectl apply --kubeconfig=roles/psycho-client/files/kubeconfig -f -
+  args:
+    stdin: "{{ item }}"
+  with_items:
+    - "{{ lookup('template', 'deployment.yml.j2') }}"
+    - "{{ lookup('template', 'service.yml.j2') }}"
+  

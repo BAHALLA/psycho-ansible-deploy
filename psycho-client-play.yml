@@ -1,0 +1,7 @@
+---
+  - name: Deploy psycho client
+    hosts: psycho-client
+  
+    roles:
+      - role: psycho-client
+    
