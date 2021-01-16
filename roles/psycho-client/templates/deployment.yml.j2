@@ -29,7 +29,7 @@ spec:
             protocol: TCP
         livenessProbe:
           httpGet:
-            path: /api/actuator/health
+            path: /actuator/health
             port: {{ service.port }}
           initialDelaySeconds: {{ container.liveness_probe.initial_delay_seconds }}
           periodSeconds: {{ container.liveness_probe.period_seconds }}
@@ -37,7 +37,7 @@ spec:
           failureThreshold: {{ container.liveness_probe.failure_threshold }}
         readinessProbe:
           httpGet:
-            path: /api/actuator/health
+            path: /actuator/health
             port: {{ service.port }}
           initialDelaySeconds: {{ container.readiness_probe.initial_delay_seconds }}
           periodSeconds: {{ container.readiness_probe.period_seconds }}
