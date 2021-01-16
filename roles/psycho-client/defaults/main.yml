@@ -3,7 +3,7 @@ container:
   namespace: "psycho-dev"
   app_name: "client-service"
   replicas: 1
-  image_pull_secrets_name: "nexus-docker"
+  image_pull_secrets_name: "docker-hub-cred"
   restart_policy: "Always"
   image: "bahalla/client-service-master:latest"
   image_pull_policy: "Always"
